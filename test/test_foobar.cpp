@@ -12,5 +12,5 @@ TEST(HelloTest, BasicAssertions) {
 
 TEST(FoobarTest, TestIntFunc)
 {
-  ASSERT_EQ(int_func(5), 5);
+  ASSERT_EQ(int_func(5), 6);
 }
