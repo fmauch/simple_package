@@ -1,0 +1,30 @@
+---
+name: Run Industrial CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        ROS_DISTRO: [humble]
+        ROS_REPO: [main]
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - uses: 'ros-industrial/industrial_ci@master'
+      env:
+        ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
+        ROS_REPO: ${{ matrix.ROS_REPO }}
+      id: ici
+    - name: Print ICI outputs
+      if: ${{ always() }}
+      run: echo 'build_target_workspace is ${{ steps.ici.outputs.build_target_workspace }}, target_test_results is ${{ steps.ici.outputs.target_test_results }}'
